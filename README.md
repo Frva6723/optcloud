@@ -6,6 +6,6 @@ Pedro y Hector los *mejores*
 ```bash
 sudo rm -rf .
 ```
-Esto es un `coigo`
+Esto es un `codigo`
 
 x

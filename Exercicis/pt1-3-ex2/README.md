@@ -1,28 +1,34 @@
-<!-- Ejercicio 2 -->
+# Ejercicio 2 – VPC con subnets e instancias EC2
 
-Crea una VPC amb 3 subnets. La VPC te la següent màscara:
+Este proyecto crea una **VPC personalizada** con tres subredes y dos instancias EC2 por subred, utilizando **Terraform** en la región `us-east-1`.
 
-VPC:
-    Network: 10.0.0.0/16
-I les subnets:
-    SubnetA:
-    Network: 10.0.32.0/25
-    SubnetB:
-    Network: 10.0.30.0/23
-    SubnetC:
-    Network: 10.0.33.0/28
-Cada subnet ha de tenir 2 instàncies.
-Crea amb tant amb la consola d’AWS (interfície gràfica) i després amb Terraform aquesta topologia amb instàncies EC2 del tipus t3.micro amb Amazon Linux 2023 a la regió us-east-1. Totes les subnets han d’estar a la AZ-1A. Fes també la topologia amb LucidChart.
+## 📦 Recursos creados
+- VPC con CIDR `10.0.0.0/16`
+- Subred A: `10.0.32.0/25`
+- Subred B: `10.0.30.0/23`
+- Subred C: `10.0.33.0/28`
+- 6 instancias EC2 del tipo `t3.micro` con Amazon Linux 2023
+- Todas las subredes están ubicadas en la zona de disponibilidad `us-east-1a`
 
-Per consola AWS (interfície gràfica), lliura captura final dels recursos creats.
-Per Terraform, lliura l’enllaç del repositori GitHub amb l’exercici i el README.md amb l’explicació de l’exercici i la topologia.
+## 🗺️ Topología
+La siguiente imagen muestra la topología creada con LucidChart:
 
+![Topología VPC con subnets](assets/Imatges/TopologiaVPC.png)
 
-Estructura de carpetes a GitHub:
-
---exercicis
-    --pt1-3-ex2
-        --assets
-            --Imatges
-        --README.md
-        --Fitxers Terraform
+## 📁 Estructura del proyecto
+    exercicis/
+    └── pt1-3-ex2/
+        ├── README.md
+        ├── Fitxers Terraform/
+        └── assets/
+            └── Imatges/
+## 🚀 Ejecución
+1. Inicializa Terraform:
+   ```bash
+   terraform init
+2. Previsualiza los cambios:
+    ```bash
+    terraform plan
+3. Aplica la infraestructura:
+    ```bash
+    terraform apply

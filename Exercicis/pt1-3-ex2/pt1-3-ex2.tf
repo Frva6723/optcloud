@@ -43,57 +43,36 @@ resource "aws_subnet" "subnet_c" {
   }
 }
 
-# AMI Amazon Linux 2023
-data "aws_ami" "amazon_linux" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["al2023-ami-*-x86_64"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-}
-
-# Instancias EC2 por subnet
+# Crear 2 instancias en cada subnet
 resource "aws_instance" "subnet_a_instances" {
   count         = 2
-  ami           = data.aws_ami.amazon_linux.id
+  ami           = "ami-052064a798f08f0d3"
   instance_type = "t3.micro"
   subnet_id     = aws_subnet.subnet_a.id
-
+  
   tags = {
-    Name = "SubnetA-Instance-${count.index}"
+    Name = "SubnetA-Instance-${count.index + 1}"
   }
 }
 
 resource "aws_instance" "subnet_b_instances" {
   count         = 2
-  ami           = data.aws_ami.amazon_linux.id
+  ami           = "ami-052064a798f08f0d3"
   instance_type = "t3.micro"
   subnet_id     = aws_subnet.subnet_b.id
 
   tags = {
-    Name = "SubnetB-Instance-${count.index}"
+    Name = "SubnetB-Instance-${count.index + 1}"
   }
 }
 
 resource "aws_instance" "subnet_c_instances" {
   count         = 2
-  ami           = data.aws_ami.amazon_linux.id
+  ami           = "ami-052064a798f08f0d3"
   instance_type = "t3.micro"
   subnet_id     = aws_subnet.subnet_c.id
 
   tags = {
-    Name = "SubnetC-Instance-${count.index}"
+    Name = "SubnetC-Instance-${count.index + 1}"
   }
 }

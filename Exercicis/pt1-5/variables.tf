@@ -7,7 +7,7 @@ variable "region" {
 variable "project_name" {
     description = "Nombre para el proyecto"
     type = string
-    default = "terraform-project"
+    default = "Fred-1.5"
 }
 
 variable "instance_count" {

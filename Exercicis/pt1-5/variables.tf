@@ -13,7 +13,7 @@ variable "project_name" {
 variable "instance_count" {
     description = "Numero de instancias por subnet"
     type = number
-    default = 8
+    default = 3
 }
 
 variable "subnet_count" {

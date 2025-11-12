@@ -22,7 +22,6 @@ resource "aws_subnet" "privada" {
     count = var.subnet_count
     vpc_id = aws_vpc.main.id
     cidr_block = cidrsubnet(var.vpc_cidr, 8, count.index)
-    map_customer_owned_ip_on_launch = false
     tags = {
       Name = "${var.project_name}-subnet-privada-${count.index}"
     }
@@ -42,7 +41,7 @@ resource "aws_route_table" "publica" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    Gateway_id = aws_internet_gateway.igw.id
+    gateway_id = aws_internet_gateway.igw.id
   }
 
   tags = {
@@ -51,21 +50,21 @@ resource "aws_route_table" "publica" {
 }
 
 # Asociar cada subnet publica
-resource "aws_route_table_association" "public_subnets" {
+resource "aws_route_table_association" "publica_subnets" {
   count          = var.subnet_count
-  subnet_id      = aws_submet.public[count.index].id
-  route_table_id = aws_route_table.public.id 
+  subnet_id      = aws_subnet.publica[count.index % var.subnet_count].id
+  route_table_id = aws_route_table.publica.id 
 }
 
 #grupo de seguridad
-resource "aws_security_group" "ec2_sg" {
+resource "aws_security_group" "ec2-sg" {
   name        = "${var.project_name}-sg"
-  description = "Security Group per a instàncies EC2"
+  description = "Security Group para las instancias EC2"
   vpc_id      = aws_vpc.main.id
    
   # Permet HTTP des de qualsevol IP
   ingress {
-    description = "Permet HTTP"
+    description = "Permite HTTP"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -74,7 +73,7 @@ resource "aws_security_group" "ec2_sg" {
 
   # Permet SSH només des de la IP definida (institut o casa)
   ingress {
-    description = "Permet SSH des de IP definida"
+    description = "Permite SSH desde la IP definida"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -83,16 +82,16 @@ resource "aws_security_group" "ec2_sg" {
 
   # Permet ICMP només des de dins la VPC
   ingress {
-    description = "Permet ICMP només des de la VPC"
+    description = "Permite ICMP solo desde la VPC"
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = [var.vpc_cidr]
   }
 
-  # Permet tot el tràfic sortint
+  # Permite todo el trafico salga
   egress {
-    description = "Permet tot el tràfic sortint"
+    description = "Permite todo el trafico salga"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -101,5 +100,44 @@ resource "aws_security_group" "ec2_sg" {
 
   tags = {
     Name = "${var.project_name}-sg"
+  }
+}
+
+# instancias EC2 publicas
+resource "aws_instance" "public" {
+  count         = var.subnet_count * var.instance_count
+  ami           = var.instance_ami
+  instance_type = var.instance_type
+  subnet_id     = aws_subnet.publica[count.index % var.subnet_count].id
+  security_groups = [aws_security_group.ec2-sg.name]
+
+  tags = {
+    Name = "${var.project_name}-publica-${count.index}"
+  }
+
+  # Asegura que el IGW esté creado antes de lanzar las instancias públicas.
+  depends_on = [aws_internet_gateway.igw]
+}
+
+#intancias EC2 Privadas
+resource "aws_instance" "private" {
+  count         = var.subnet_count * var.instance_count
+  ami           = var.instance_ami
+  instance_type = var.instance_type
+  subnet_id     = aws_subnet.privada[count.index % var.subnet_count].id
+  security_groups = [aws_security_group.ec2-sg.name]
+
+  tags = {
+    Name = "${var.project_name}-privada-${count.index}"
+  }
+}
+
+# Bucket S3 condicional
+resource "aws_s3_bucket" "project_bucket" {
+  count  = var.create_s3_bucket ? 1 : 0 # Esta linea lo que hace es que si la variable es ture crea 1 bucket si es falsa no la crea
+  bucket = "${var.project_name}-bucket"
+
+  tags = {
+    Name = "${var.project_name}-bucket"
   }
 }

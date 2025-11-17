@@ -20,7 +20,7 @@ output "private_instance_ids" {
   value       = aws_instance.privada[*].id
 }
 
-output "private_instance_private_ips" {
+output "private_instance_privada_ips" {
   description = "Direcciones IP privadas de las instancias EC2 privadas"
   value       = aws_instance.privada[*].private_ip
 }

@@ -104,7 +104,7 @@ resource "aws_security_group" "ec2-sg" {
 }
 
 # instancias EC2 publicas
-resource "aws_instance" "public" {
+resource "aws_instance" "publica" {
   count         = var.subnet_count * var.instance_count
   ami           = var.instance_ami
   instance_type = var.instance_type
@@ -120,7 +120,7 @@ resource "aws_instance" "public" {
 }
 
 #intancias EC2 Privadas
-resource "aws_instance" "private" {
+resource "aws_instance" "privada" {
   count         = var.subnet_count * var.instance_count
   ami           = var.instance_ami
   instance_type = var.instance_type

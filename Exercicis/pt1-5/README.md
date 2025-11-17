@@ -10,15 +10,15 @@ Antes de empezar, asegúrate de que tienes:
 ---
 ## 📋 Estructura Github
 
-📁 exercicis
-├── 📁 pt-1-5
-│   ├── 📁 assets
-│   │   └── 🖼️ Imatges (opcionales, diagrama de la infraestructura, captures, etc.)
-│   ├── 📄 README.md          # Explicació de l'exercici i instruccions pas a pas
-│   ├── 📄 main.tf            # Fitxer principal amb els recursos Terraform
-│   ├── 📄 variables.tf       # Variables definides per l'exercici
-│   ├── 📄 outputs.tf         # Outputs definits per l'exercici
-│   └── 📄 provider.tf        # Configuració del provider AWS
+- **exercicis/**
+  - **pt-1-5/**
+    - **assets/**
+      - Imágenes (opcionales: diagrama de la infraestructura, capturas de pantalla, etc.)
+    - `README.md` — Explicación del ejercicio e instrucciones paso a paso
+    - `main.tf` — Archivo principal con los recursos de Terraform
+    - `variables.tf` — Variables definidas para el ejercicio
+    - `outputs.tf` — Outputs definidos para mostrar resultados del despliegue
+    - `provider.tf` — Configuración del proveedor AWS
 
 
 ---
@@ -152,7 +152,7 @@ Asegúrate de cumplir con los siguientes requisitos durante todo el ejercicio:
 
 ![Gateway](assets/Gateway.png)
 
-#### tabla Creado
+#### Tabla Creado
 
 ![tabla de direccionamiento](assets/tabla.png)
 

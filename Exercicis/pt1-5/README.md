@@ -140,3 +140,34 @@ Asegúrate de cumplir con los siguientes requisitos durante todo el ejercicio:
 
 ### Paso 7: Comprobaciones
 
+#### Outputs despues del apply
+
+![Outputs](assets/image.png)
+
+#### VPC Creado
+
+![VPC](assets/vpc.png)
+
+#### Gateway Creado
+
+![Gateway](assets/Gateway.png)
+
+#### tabla Creado
+
+![tabla de direccionamiento](assets/tabla.png)
+
+#### Subredes Creadas
+
+![subredes](assets/Subnets.png)
+
+#### Security group Creada
+
+![grupo de seguridad](assets/Grupo.png)
+
+#### Subredes Creadas
+
+![reglasd del grupo de seguridad](assets/reglas.png)
+
+#### Instancias Creadas
+
+![EC2 creadas](assets/instancias.png)

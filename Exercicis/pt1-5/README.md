@@ -8,7 +8,20 @@ Antes de empezar, asegúrate de que tienes:
 * Un editor de código (como VSCode).
 
 ---
+## 📋 Estructura Github
 
+📁 exercicis
+├── 📁 pt-1-5
+│   ├── 📁 assets
+│   │   └── 🖼️ Imatges (opcionales, diagrama de la infraestructura, captures, etc.)
+│   ├── 📄 README.md          # Explicació de l'exercici i instruccions pas a pas
+│   ├── 📄 main.tf            # Fitxer principal amb els recursos Terraform
+│   ├── 📄 variables.tf       # Variables definides per l'exercici
+│   ├── 📄 outputs.tf         # Outputs definits per l'exercici
+│   └── 📄 provider.tf        # Configuració del provider AWS
+
+
+---
 ## 🛠️ Pasos del Ejercicio
 
 ### Paso 1: Configuración Inicial
@@ -25,13 +38,13 @@ El primer paso es establecer las bases de nuestro proyecto, definiendo el provee
 
 | Variable | Descripción | Tipo | Valor por Defecto (Sugerido) |
 | :--- | :--- | :--- | :--- |
-| **`region`** | Región de AWS donde se desplegarán los recursos. | `string` | N/A (se debe definir) |
-| **`project_name`** | Nombre del proyecto (se usará para etiquetar). | `string` | `"my-project"` |
-| **`instance_count`** | Define cuántas instancias por subnet. | `number` | `1` |
+| **`region`** | Región de AWS donde se desplegarán los recursos. | `string` | `us-east-1` |
+| **`project_name`** | Nombre del proyecto (se usará para etiquetar). | `string` | `"Fred-1.5"` |
+| **`instance_count`** | Define cuántas instancias por subnet. | `number` | `3` |
 | **`subnet_count`** | Define cuántas subnets de cada tipo (privada/pública). | `number` | `2` |
 | **`instance_type`** | El tipo de instancia (ej: t3.micro). | `string` | `"t3.micro"` |
-| **`instance_ami`** | ID de la AMI de AWS para las instancias. | `string` | N/A (se debe definir) |
-| **`create_s3_bucket`**| Booleano para crear el *bucket* S3 condicionalmente. | `bool` | `false` |
+| **`instance_ami`** | ID de la AMI de AWS para las instancias. | `string` | `ami-052064a798f08f0d3` |
+| **`create_s3_bucket`**| Booleano para crear el *bucket* S3 condicionalmente. | `bool` | `true` |
 | **`vpc_cidr`** | Bloque CIDR para la VPC (10.0.0.0/16). | `string` | `"10.0.0.0/16"` |
 | **`my_ip`** | IP/Red permitida para conexión SSH. | `string` | `"0.0.0.0/0"` |
 
@@ -107,3 +120,23 @@ Asegúrate de cumplir con los siguientes requisitos durante todo el ejercicio:
 * **Etiquetas (Tags):** Todos los recursos (VPC, subredes, instancias, etc.) deben tener una etiqueta `Name` que incluya el valor de `var.project_name`.
 * **Comentarios:** Documenta cada recurso en el código Terraform con un comentario explicativo sobre su función.
 * **Dependencias:** Usa `depends_on` explícitamente cuando sea necesario para gestionar dependencias que Terraform no pueda inferir automáticamente (ej: la tabla de rutas depende del IGW).
+
+---
+
+### Paso 6: Ejecución
+
+1. Inicializa Terraform:
+   ```bash
+   terraform init
+2. Previsualiza los cambios:
+    ```bash
+    terraform plan
+3. Aplica la infraestructura:
+    ```bash
+    terraform apply
+    ```
+    
+---
+
+### Paso 7: Comprobaciones
+

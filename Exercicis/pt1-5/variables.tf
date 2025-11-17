@@ -7,13 +7,13 @@ variable "region" {
 variable "project_name" {
     description = "Nombre para el proyecto"
     type = string
-    default = "Fred-1.5"
+    default = "pt1-5"
 }
 
 variable "instance_count" {
     description = "Numero de instancias por subnet"
     type = number
-    default = 3
+    default = 2
 }
 
 variable "subnet_count" {

@@ -10,10 +10,11 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "publica" {
     count       = var.subnet_count
     vpc_id      = aws_vpc.main.id
-    cidr_block  = cidrsubnet(var.vpc_cidr, 8, count.index)
+    availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
+    cidr_block  = cidrsubnet(var.vpc_cidr, 4, count.index)
     map_public_ip_on_launch = true
     tags = {
-      Name = "${var.project_name}-subnet-publica-${count.index}"
+      Name = "${var.project_name}-subnet-publica-${count.index + 1}"
     }
 }
 
@@ -21,7 +22,8 @@ resource "aws_subnet" "publica" {
 resource "aws_subnet" "privada" {
     count = var.subnet_count
     vpc_id = aws_vpc.main.id
-    cidr_block = cidrsubnet(var.vpc_cidr, 8, count.index)
+    availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
+    cidr_block = cidrsubnet(var.vpc_cidr, 4, count.index + var.subnet_count)
     tags = {
       Name = "${var.project_name}-subnet-privada-${count.index}"
     }
@@ -51,8 +53,8 @@ resource "aws_route_table" "publica" {
 
 # Asociar cada subnet publica
 resource "aws_route_table_association" "publica_subnets" {
-  count          = var.subnet_count
-  subnet_id      = aws_subnet.publica[count.index % var.subnet_count].id
+  count          = length(aws_subnet.publica)
+  subnet_id      = aws_subnet.publica[count.index].id
   route_table_id = aws_route_table.publica.id 
 }
 
@@ -68,7 +70,7 @@ resource "aws_security_group" "ec2-sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.my_ip]
   }
 
   # Permet SSH només des de la IP definida (institut o casa)
@@ -95,7 +97,7 @@ resource "aws_security_group" "ec2-sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.my_ip]
   }
 
   tags = {
@@ -105,14 +107,14 @@ resource "aws_security_group" "ec2-sg" {
 
 # instancias EC2 publicas
 resource "aws_instance" "publica" {
-  count         = var.subnet_count * var.instance_count
+  count         = length(aws_subnet.publica) * var.instance_count
   ami           = var.instance_ami
   instance_type = var.instance_type
-  subnet_id     = aws_subnet.publica[count.index % var.subnet_count].id
-  security_groups = [aws_security_group.ec2-sg.name]
+  subnet_id     = aws_subnet.publica[floor(count.index / var.instance_count)].id
+  security_groups = [aws_security_group.ec2-sg.id]
 
   tags = {
-    Name = "${var.project_name}-publica-${count.index}"
+    Name = "${var.project_name}-publica-${floor(count.index / var.instance_count)}-${count.index % var.instance_count}"
   }
 
   # Asegura que el IGW esté creado antes de lanzar las instancias públicas.
@@ -121,14 +123,14 @@ resource "aws_instance" "publica" {
 
 #intancias EC2 Privadas
 resource "aws_instance" "privada" {
-  count         = var.subnet_count * var.instance_count
+  count         = length(aws_subnet.privada) * var.instance_count
   ami           = var.instance_ami
   instance_type = var.instance_type
-  subnet_id     = aws_subnet.privada[count.index % var.subnet_count].id
-  security_groups = [aws_security_group.ec2-sg.name]
+  subnet_id     = aws_subnet.privada[floor(count.index / var.instance_count)].id
+  security_groups = [aws_security_group.ec2-sg.id]
 
   tags = {
-    Name = "${var.project_name}-privada-${count.index}"
+    Name = "${var.project_name}-privada-${floor(count.index / var.instance_count)}-${count.index % var.instance_count}"
   }
 }
 

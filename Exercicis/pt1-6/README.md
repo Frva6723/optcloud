@@ -99,15 +99,15 @@ Primero vamos al directorio correspondiente y utilizamos un Terraform init.
 
 ![Terraform init](assets/Terraform-init.png)
 
-Hacemos un apply y si todo sale bien nos aparecera esto:
+Hacemos un `apply` y si todo sale bien nos aparecera esto:
 
 ![Terraform apply](assets/apply.png)
 
-Esto son los archivos que nos aparecera despues del apply
+Esto son los archivos que nos aparecera despues del `apply`
 
 ![Terraform apply](assets/Archivos.png)
 
-Utilizamos el script que creamos, la primera vez no te preguntara nada pero como he hecho pruebas te pedria si quieres removerlo, en este caso ponemos yes ya que si no pones nada no se sobrescribira:
+Utilizamos el `script` que creamos, la primera vez no te preguntara nada pero como he hecho pruebas te pedria si quieres removerlo, en este caso ponemos yes ya que si no pones nada no se sobrescribira:
 
 ![Terraform apply](assets/Script.png)
 
@@ -122,11 +122,11 @@ Para esto utilizaremos el siguiente comando que hara que cree 3 instancias priva
 ![Terraform apply](assets/apply3.png)
 
 
-Si vemos ahora los archivos veremos que habra otro .pem:
+Si vemos ahora los archivos veremos que habra otro `.pem`:
 
 ![Terraform apply](assets/archivos2.png)
 
-Si utilizamos el scrip veremos que nos pedira remplazar todo ya que hice esta comprobacion tambien antes pero si no estan estos archivos no te pediria de remplazarlos.
+Si utilizamos el `script` veremos que nos pedira remplazar todo ya que hice esta comprobacion tambien antes pero si no estan estos archivos no te pediria de remplazarlos.
 
 ![Terraform apply](assets/Script2.png)
 

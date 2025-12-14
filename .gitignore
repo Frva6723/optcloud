@@ -37,3 +37,4 @@ override.tf.json
 terraform.rc
 
 .terraform.lock.hcl
+Exercicis/pt1-6/ssh_config_per_connect.txt

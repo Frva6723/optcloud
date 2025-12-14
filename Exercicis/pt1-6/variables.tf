@@ -21,7 +21,6 @@ variable "public_subnet_cidr_base" {
 }
 
 
-
 variable "private_instance_count" {
   type        = number
   default     = 2

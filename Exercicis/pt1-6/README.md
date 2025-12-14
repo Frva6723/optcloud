@@ -93,7 +93,7 @@ terraform destroy -var="private_instance_count=N" # Reemplaza N con el número q
 
 ## 4. Comprobaciones
 
-### Comprobaciones sin cambiar la variable en el cmd:
+### 4.1 Comprobaciones sin cambiar la variable en el cmd:
 
 Primero vamos al directorio correspondiente y utilizamos un Terraform init.
 
@@ -115,7 +115,7 @@ Ahora podremos hacer SSH a cualquiera de las 3 maquinas que tenemos.
 
 ![Terraform apply](assets/Ssh-1.png)
 
-### Comprobaciones cambiando la variable en el cmd:
+### 4.2 Comprobaciones cambiando la variable en el cmd:
 
 Para esto utilizaremos el siguiente comando que hara que cree 3 instancias privadas en vez de 2.
 
